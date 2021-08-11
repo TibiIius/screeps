@@ -17,22 +17,14 @@ export default {
     if (!creep.memory.working) {
       creepFarm(creep, globals.COLOR_HARVESTER);
     } else {
-      // TODO: FIX THIS ABOMINATION
-      const targets: any[] | undefined = creep.room.find<any>(FIND_STRUCTURES, {
+      const targets: any[] = creep.room.find<any>(FIND_STRUCTURES, {
         filter: struct => {
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-          const struct2 = struct as any;
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-          if (struct2.store) {
-            if (struct2.store.getFreeCapacity([RESOURCE_ENERGY]) > 0) {
-              // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-              return struct2;
-            } else {
-              return;
+            if (struct instanceof Creep) {
+                if (struct.store.getFreeCapacity(RESOURCE_ENERGY) > 0) {
+                    return true;
+                }
             }
-          } else {
-            return;
-          }
+            return false;
         },
       });
 
